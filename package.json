@@ -9,6 +9,7 @@
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
     "dev:server": "node src/api/dev.js",
+    "prisma:generate": "prisma generate",
     "prisma:seed": "node prisma/seed.js",
     "prisma:push": "node prisma/delete.js && npx prisma db push && npx prisma generate",
     "prisma:studio": "prisma studio"
