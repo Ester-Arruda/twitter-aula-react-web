@@ -23,6 +23,8 @@
     "@netlify/functions": "^2.6.0",
     "@prisma/client": "^5.10.2",
     "@react-input/mask": "^1.0.21",
+    "axios": "^1.6.7",
+    "axios-hooks": "^5.0.2",
     "body-parser": "^1.20.2",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
