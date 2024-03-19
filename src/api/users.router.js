@@ -1,16 +1,5 @@
-import express, { Router } from "express";
+import { Router } from "express";
 import { prisma } from "./prisma.js";
-import yup from "yup";
-
-const createUserSchema = yup.object({
-  name: yup.string().min(2).max(16),
-  surname: yup.string().min(2).max(16),
-  email: yup.string().email(),
-  username: yup
-    .string()
-    .lowercase()
-    .matches(/$[a-z]+^/),
-});
 
 export const usersRouter = Router();
 
@@ -28,5 +17,3 @@ usersRouter.get("/:username", async (req, res) => {
 
   res.status(200).json(user);
 });
-
-usersRouter.post("/", async (req, res) => {});

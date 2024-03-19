@@ -6,6 +6,7 @@ import { TextField } from "../components/TextField";
 import { ErrorText } from "../components/ErrorText";
 import { Select } from "../components/Select";
 import { Card } from "../components/Card";
+import { axios } from "../axios";
 
 const signUpSchema = yup.object({
   name: yup
@@ -72,7 +73,7 @@ export function SignUpPage() {
             confirmPassword: "",
             acceptTerms: false,
           }}
-          onSubmit={(values) => {
+          onSubmit={async (values) => {
             alert(`
             Name: ${values.name}
             Surname: ${values.surname}

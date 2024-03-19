@@ -22,17 +22,20 @@ model Profile {
   bio    String?
   user   User    @relation(fields: [userId], references: [id])
   userId Int     @unique
-
 }
 
 model User {
   id          Int       @id @default(autoincrement())
   username    String    @unique
   email       String    @unique
-  phoneNumber String    @unique
+  cpf         String    @unique
+  gender      String
+  pronouns    String
   name        String
   surname     String
+  password    String
   avatar      String?
+  acceptTerms Boolean
   posts       Post[]
   profile     Profile?
   followers   Follows[] @relation("following")

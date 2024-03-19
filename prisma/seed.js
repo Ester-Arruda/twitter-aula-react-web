@@ -9,7 +9,11 @@ async function main() {
     name: faker.person.firstName(),
     surname: faker.person.lastName(),
     avatar: faker.image.avatar(),
-    phoneNumber: faker.phone.number(),
+    gender: faker.person.gender(),
+    pronouns: faker.person.gender(),
+    cpf: faker.string.uuid(),
+    password: faker.internet.password(),
+    acceptTerms: true,
   }));
 
   await prisma.user.createMany({
