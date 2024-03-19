@@ -7,6 +7,9 @@ import { ErrorText } from "../components/ErrorText";
 import { Select } from "../components/Select";
 import { Card } from "../components/Card";
 import { axios } from "../axios";
+import { AxiosError } from "axios";
+import { AuthService } from "../auth.service";
+import toast from "react-simple-toasts";
 
 const signUpSchema = yup.object({
   name: yup
@@ -73,17 +76,24 @@ export function SignUpPage() {
             confirmPassword: "",
             acceptTerms: false,
           }}
-          onSubmit={async (values) => {
-            alert(`
-            Name: ${values.name}
-            Surname: ${values.surname}
-            Gender: ${values.gender}
-            Pronouns: ${values.pronouns}
-            Username: ${values.username}
-            CPF: ${values.cpf}
-            Password: ${values.password}
-            Accept terms: ${values.acceptTerms}
-            `);
+          onSubmit={async (values, { setFieldError }) => {
+            try {
+              const response = await axios.post("/account/sign-up", values);
+              const token = response.data.token;
+              AuthService.setToken(token);
+              toast(
+                `Seja bem-vinde, ${response.data.user.name}! Sua conta foi criada com sucesso!`
+              );
+            } catch (error) {
+              if (error instanceof AxiosError) {
+                setFieldError(
+                  error.response.data.path,
+                  error.response.data.message
+                );
+              } else {
+                throw error;
+              }
+            }
           }}
         >
           {({
