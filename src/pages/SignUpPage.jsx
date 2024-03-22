@@ -1,5 +1,6 @@
 import { Formik } from "formik";
 import * as yup from "yup";
+import { useNavigate } from "react-router-dom";
 import { useMask } from "@react-input/mask";
 import { Button } from "../components/Button";
 import { TextField } from "../components/TextField";
@@ -51,6 +52,8 @@ const signUpSchema = yup.object({
 });
 
 export function SignUpPage() {
+  const navigate = useNavigate();
+
   const cpfMask = useMask({
     mask: "___.___.___-__",
     replacement: {
@@ -84,6 +87,7 @@ export function SignUpPage() {
               toast(
                 `Seja bem-vinde, ${response.data.user.name}! Sua conta foi criada com sucesso!`
               );
+              navigate("/usuario");
             } catch (error) {
               if (error instanceof AxiosError) {
                 setFieldError(

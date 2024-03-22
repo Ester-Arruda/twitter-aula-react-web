@@ -8,6 +8,7 @@ import { HomePage } from "./pages/HomePage";
 import { SignUpPage } from "./pages/SignUpPage";
 import { SignInPage } from "./pages/SignInPage";
 import { ProfilePage } from "./pages/ProfilePage";
+import { UserPage } from "./pages/UserPage";
 
 configure({ axios });
 
@@ -21,6 +22,7 @@ function App() {
           <Route path="/feed" element={<FeedPage />} />
           <Route path="/entrar" element={<SignInPage />} />
           <Route path="/u/:username" element={<ProfilePage />} />
+          <Route path="/usuario" element={<UserPage />} />
         </Routes>
       </Layout>
     </BrowserRouter>
