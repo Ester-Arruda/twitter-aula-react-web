@@ -9,12 +9,14 @@ import { SignUpPage } from "./pages/SignUpPage";
 import { SignInPage } from "./pages/SignInPage";
 import { ProfilePage } from "./pages/ProfilePage";
 import { UserPage } from "./pages/UserPage";
+import { LoadSession } from "./LoadSession";
 
 configure({ axios });
 
 function App() {
   return (
     <BrowserRouter>
+      <LoadSession />
       <Layout>
         <Routes>
           <Route path="/" element={<HomePage />} />

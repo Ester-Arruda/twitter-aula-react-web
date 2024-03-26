@@ -1,14 +1,22 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Card } from "../components/Card";
 import { TextField } from "../components/TextField";
 import { Button } from "../components/Button";
 import { AxiosError } from "axios";
+import { AuthService } from "../auth.service";
 import { axios } from "../axios";
 import toast from "react-simple-toasts";
+import { useGlobalStore } from "../useGlobalStore";
 
 export function SignInPage() {
+  const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const setUser = useGlobalStore((state) => state.setUser);
+  const setIsAuthenticated = useGlobalStore(
+    (state) => state.setIsAuthenticated
+  );
 
   async function onSubmit(event) {
     event.preventDefault();
@@ -17,9 +25,26 @@ export function SignInPage() {
         username,
         password,
       });
+
+      const token = response.data.token;
+      AuthService.setToken(token);
+
+      const { user } = response.data;
+      const { name, pronouns } = user;
+      const boasVindas = {
+        "ele-dele": `Seja bem-vindo, ${name}!`,
+        "ela-dela": `Seja bem-vinda, ${name}!`,
+        "elu-delu": `Seja bem-vinde, ${name}!`,
+      };
+      toast(boasVindas[pronouns]);
+      setUser(user);
+      setIsAuthenticated(true);
+      navigate("/usuario");
     } catch (error) {
       if (error instanceof AxiosError) {
         toast(error.response.data.error);
+      } else {
+        throw error;
       }
     }
   }
