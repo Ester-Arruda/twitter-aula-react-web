@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useGlobalStore } from "./useGlobalStore";
 import { axios } from "./axios";
+import { AuthService } from "./auth.service";
 import { AxiosError } from "axios";
 
 export function LoadSession() {
@@ -10,6 +11,12 @@ export function LoadSession() {
   );
 
   async function loadSession() {
+    const token = AuthService.getToken();
+
+    if (!token) {
+      return;
+    }
+
     try {
       const request = await axios.get("/account/profile");
       const user = request.data;

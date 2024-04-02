@@ -10,6 +10,7 @@ import { Card } from "../components/Card";
 import { axios } from "../axios";
 import { AxiosError } from "axios";
 import { AuthService } from "../auth.service";
+import { useGlobalStore } from "../useGlobalStore";
 import toast from "react-simple-toasts";
 
 const signUpSchema = yup.object({
@@ -53,6 +54,10 @@ const signUpSchema = yup.object({
 
 export function SignUpPage() {
   const navigate = useNavigate();
+  const setUser = useGlobalStore((state) => state.setUser);
+  const setIsAuthenticated = useGlobalStore(
+    (state) => state.setIsAuthenticated
+  );
 
   const cpfMask = useMask({
     mask: "___.___.___-__",
@@ -87,6 +92,8 @@ export function SignUpPage() {
               toast(
                 `Seja bem-vinde, ${response.data.user.name}! Sua conta foi criada com sucesso!`
               );
+              setUser(user);
+              setIsAuthenticated(true);
               navigate("/usuario");
             } catch (error) {
               if (error instanceof AxiosError) {

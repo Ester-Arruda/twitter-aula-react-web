@@ -5,10 +5,16 @@ import { Button } from "../components/Button";
 import { useGlobalStore } from "../useGlobalStore";
 import toast from "react-simple-toasts";
 import { AuthService } from "../auth.service";
+import { FiLoader } from "react-icons/fi";
 
 export function AppBar() {
+  const isLoading = useGlobalStore((state) => state.isLoading);
   const isAuthenticated = useGlobalStore((state) => state.isAuthenticated);
   const currentArea = isAuthenticated ? <UserArea /> : <AnonArea />;
+
+  const loader = isLoading ? (
+    <FiLoader className="animate-spin w-[24px] h-[24px] text-purple-600" />
+  ) : null;
 
   return (
     <header className="flex border-b p-4 items-center justify-between bg-white">
@@ -21,7 +27,10 @@ export function AppBar() {
           <span className="text-2xl font-bold">Paçaro</span>
         </Link>
       </div>
-      {currentArea}
+      <div className="flex items-center gap-4">
+        {currentArea}
+        {loader}
+      </div>
     </header>
   );
 }

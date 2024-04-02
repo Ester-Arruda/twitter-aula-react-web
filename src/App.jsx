@@ -1,5 +1,9 @@
 import "./App.css";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import {
+  unstable_HistoryRouter as HistoryRouter,
+  Routes,
+  Route,
+} from "react-router-dom";
 import { configure } from "axios-hooks";
 import { axios } from "./axios";
 import { Layout } from "./layout/Layout";
@@ -10,12 +14,13 @@ import { SignInPage } from "./pages/SignInPage";
 import { ProfilePage } from "./pages/ProfilePage";
 import { UserPage } from "./pages/UserPage";
 import { LoadSession } from "./LoadSession";
+import { history } from "./history";
 
 configure({ axios });
 
 function App() {
   return (
-    <BrowserRouter>
+    <HistoryRouter history={history}>
       <LoadSession />
       <Layout>
         <Routes>
@@ -27,7 +32,7 @@ function App() {
           <Route path="/usuario" element={<UserPage />} />
         </Routes>
       </Layout>
-    </BrowserRouter>
+    </HistoryRouter>
   );
 }
 

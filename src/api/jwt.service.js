@@ -14,7 +14,7 @@ export class JwtService {
 
   encode(payload) {
     const token = jwt.sign(payload, this.jwtSecret, {
-      expiresIn: "120s",
+      expiresIn: "24h",
     });
     return token;
   }
