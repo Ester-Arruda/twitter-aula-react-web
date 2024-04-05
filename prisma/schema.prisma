@@ -30,7 +30,6 @@ model User {
   avatar      String?
   acceptTerms Boolean
   posts       Post[]
-  profile     Profile?
   followers   Follows[] @relation("following")
   following   Follows[] @relation("follower")
 }

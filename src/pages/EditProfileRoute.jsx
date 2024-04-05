@@ -2,6 +2,7 @@ import { Formik } from "formik";
 import * as yup from "yup";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { FaCheck } from "react-icons/fa";
 import { Button } from "../components/Button";
 import { TextField } from "../components/TextField";
 import { ErrorText } from "../components/ErrorText";
@@ -52,6 +53,7 @@ export function EditProfilePage() {
     <div className="w-full h-full p-4 md:px-0 md:py-16 bg-[url(background.jpg)]">
       <Card className="md:m-auto max-w-screen-md">
         <h2 className="text-center font-bold text-2xl mb-4">Editar perfil</h2>
+        <UploadAvatar />
         <Formik
           validationSchema={profileSchema}
           initialValues={user}
@@ -177,6 +179,83 @@ export function EditProfilePage() {
           )}
         </Formik>
       </Card>
+    </div>
+  );
+}
+
+function UploadAvatar() {
+  const user = useGlobalStore((state) => state.user);
+  const setUser = useGlobalStore((state) => state.setUser);
+  const [avatar, setAvatar] = useState(null);
+  const [crop, setCrop] = useState({ x: 0, y: 0 });
+  const [zoom, setZoom] = useState(1);
+  const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
+
+  const onCropComplete = (croppedArea, croppedAreaPixels) => {
+    setCroppedAreaPixels(croppedAreaPixels);
+  };
+
+  async function onAvatarUpload() {
+    const avatarCropped = await getCroppedImage(avatar, croppedAreaPixels);
+    setAvatar(null);
+    setCrop({ x: 0, y: 0 });
+    setZoom(1);
+    setCroppedAreaPixels(null);
+    const formData = new FormData();
+    formData.append("avatar", avatarCropped);
+    const response = await axios.post("/account/upload-avatar", formData);
+    const user = response.data;
+    setUser({
+      ...user,
+      avatar: user.avatar.concat(`?refresh=${Math.random()}`),
+    });
+    toast("Avatar alterado com sucesso!");
+  }
+
+  async function onAvatarSelect(event) {
+    const [file] = event.target.files;
+    const avatar = URL.createObjectURL(file);
+    setAvatar(avatar);
+  }
+
+  const cropper = avatar !== null && (
+    <div>
+      <Cropper
+        image={avatar}
+        crop={crop}
+        zoom={zoom}
+        aspect={1 / 1}
+        onCropChange={setCrop}
+        onCropComplete={onCropComplete}
+        onZoomChange={setZoom}
+      />
+      <Button
+        className="fixed bottom-10 right-10 rounded-full p-4"
+        onClick={onAvatarUpload}
+      >
+        <FaCheck size="28px" />
+      </Button>
+    </div>
+  );
+
+  return (
+    <div className="flex my-4 justify-center">
+      {cropper}
+      <label htmlFor="avatar-upload">
+        <img
+          src={user.avatar ?? "/anon.png"}
+          alt=""
+          className="w-[196px] h-[196px] rounded-full bg-slate-100 cursor-pointer"
+          title="Clique para alterar seu avatar"
+        />
+      </label>
+      <input
+        type="file"
+        accept="image/jpeg"
+        id="avatar-upload"
+        className="hidden"
+        onChange={onAvatarSelect}
+      />
     </div>
   );
 }
