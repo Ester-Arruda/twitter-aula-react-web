@@ -9,5 +9,5 @@ export const LinkButton = tw(Link)`
     font-bold
     rounded-md
     py-2
-    px-4  
+    px-4
 `;

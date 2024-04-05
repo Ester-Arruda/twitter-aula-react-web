@@ -22,5 +22,7 @@ api.use((error, req, res, next) => {
   if (error instanceof ValidationError) {
     return res.status(422).json(error);
   }
+
+  throw error;
   next();
 });

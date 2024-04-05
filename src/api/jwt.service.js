@@ -1,6 +1,8 @@
 import jwt from "jsonwebtoken";
 
 export const TokenExpiredError = jwt.TokenExpiredError;
+export const JsonWebTokenError = jwt.JsonWebTokenError;
+export const NotBeforeError = jwt.NotBeforeError;
 
 export class JwtService {
   constructor() {

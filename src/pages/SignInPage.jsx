@@ -39,7 +39,7 @@ export function SignInPage() {
       toast(boasVindas[pronouns]);
       setUser(user);
       setIsAuthenticated(true);
-      navigate("/usuario");
+      navigate("/perfil");
     } catch (error) {
       if (error instanceof AxiosError) {
         toast(error.response.data.error);
@@ -50,9 +50,9 @@ export function SignInPage() {
   }
 
   return (
-    <div className="w-full h-full flex items-center justify-center absolute">
-      <Card>
-        <h2 className="text-center font-bold text-3xl mb-4">
+    <div className="w-full h-full flex items-center justify-center bg-[url(background.jpg)]">
+      <Card className="md:min-w-96">
+        <h2 className="text-center font-bold text-2xl mb-4">
           Entrar na sua conta
         </h2>
         <form

@@ -54,14 +54,14 @@ function UserArea() {
   return (
     <div className="flex gap-4 items-center">
       <Link
-        to="/usuario"
+        to="/perfil"
         title="Ir para a tela de perfil"
         className="flex gap-2 items-center"
       >
         <img
           src={user.avatar ?? "/anon.png"}
           alt=""
-          className="w-[36px] h-[36px] rounded-full"
+          className="w-[36px] h-[36px] rounded-full bg-slate-100"
         />
         <span className="font-bold">
           {user.name} {user.surname}

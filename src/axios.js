@@ -35,5 +35,7 @@ axios.interceptors.response.use(
       toast("Sua sessão expirou. Por favor, entre novamente.");
       history.push("/entrar");
     }
+
+    return Promise.reject(error);
   }
 );

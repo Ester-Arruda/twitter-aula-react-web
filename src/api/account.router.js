@@ -1,9 +1,13 @@
 import express, { Router } from "express";
+import { promises as fs } from "fs";
+import sharp from "sharp";
+import multer from "multer";
 import { prisma } from "./prisma.js";
 import yup from "yup";
 import { JwtService } from "./jwt.service.js";
 import { authMiddleware } from "./auth.middleware.js";
 
+const upload = multer();
 const jwt = new JwtService();
 
 const signUpSchema = yup.object({
@@ -73,10 +77,42 @@ const signUpSchema = yup.object({
   acceptTerms: yup.boolean().equals([true], "Você precisa vender a sua alma."),
 });
 
+const profileSchema = yup.object({
+  name: yup
+    .string()
+    .min(2, "O nome precisa ter pelo menos 2 caracteres.")
+    .max(16, "O nome precisa ter até 16 caracteres.")
+    .required("O nome não pode ficar vazio."),
+  surname: yup
+    .string()
+    .min(2, "O sobrenome precisa ter pelo menos 2 caracteres.")
+    .max(24, "O sobrenome precisa ter até 24 caracteres.")
+    .required("O sobrenome não pode ficar vazio."),
+  gender: yup.string().required("O gênero não pode ficar vazio."),
+  pronouns: yup.string().required("Os pronomes não podem ficar vazios."),
+});
+
 export const accountRouter = Router();
 
 accountRouter.get("/profile", authMiddleware, async (req, res) => {
   res.status(200).json(req.user);
+});
+
+accountRouter.patch("/profile", authMiddleware, async (req, res) => {
+  const profileData = await profileSchema.validate(req.body, {
+    stripUnknown: true,
+  });
+
+  const user = await prisma.user.update({
+    data: profileData,
+    where: {
+      id: req.user.id,
+    },
+  });
+
+  res.status(200).json({
+    user,
+  });
 });
 
 accountRouter.post("/sign-up", async (req, res) => {
@@ -121,3 +157,29 @@ accountRouter.post("/sign-in", async (req, res) => {
     token,
   });
 });
+
+accountRouter.post(
+  "/upload-avatar",
+  [authMiddleware, upload.single("avatar")],
+  async (req, res) => {
+    const avatarBuffer = await sharp(req.file.buffer)
+      .resize({
+        width: 256,
+        height: 256,
+        fit: "cover",
+        position: "center",
+      })
+      .toBuffer();
+    await fs.writeFile(`public/${req.user.id}.jpg`, avatarBuffer);
+    const avatarPath = `/${req.user.id}.jpg`;
+    const user = await prisma.user.update({
+      data: {
+        avatar: avatarPath,
+      },
+      where: {
+        id: req.user.id,
+      },
+    });
+    res.status(200).json(user);
+  }
+);
