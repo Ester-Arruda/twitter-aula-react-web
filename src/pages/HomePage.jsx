@@ -1,5 +1,5 @@
 import { SignInPage } from "./SignInPage";
-import { ProfilePage } from "./ProfilePage";
+import { ProfilePage } from "../pages/ProfilePage";
 import { useGlobalStore } from "../useGlobalStore";
 
 export function HomePage(props) {

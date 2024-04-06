@@ -12,10 +12,19 @@ import { SignUpPage } from "./pages/SignUpPage";
 import { SignInPage } from "./pages/SignInPage";
 import { EditProfilePage } from "./pages/EditProfileRoute";
 import { ProfilePage } from "./pages/ProfilePage";
-import { UserViewPage } from "./pages/UserViewPage";
+import { ViewProfilePage } from "./pages/ViewProfilePage";
+import { ViewUsersPage } from "./pages/ViewUsersPage";
+import { ViewFollowsPage } from "./pages/ViewFollowsPage";
 
 import { LoadSession } from "./LoadSession";
 import { history } from "./history";
+
+import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime";
+import "dayjs/locale/pt-br";
+
+dayjs.extend(relativeTime);
+dayjs.locale("pt-br");
 
 configure({ axios });
 
@@ -29,8 +38,10 @@ function App() {
           <Route path="/criar-conta" element={<SignUpPage />} />
           <Route path="/entrar" element={<SignInPage />} />
           <Route path="/editar-perfil" element={<EditProfilePage />} />
-          <Route path="/u/:username" element={<UserViewPage />} />
+          <Route path="/u/:username" element={<ViewProfilePage />} />
+          <Route path="/seguindo/:userId" element={<ViewFollowsPage />} />
           <Route path="/perfil" element={<ProfilePage />} />
+          <Route path="/usuarios" element={<ViewUsersPage />} />
         </Routes>
       </Layout>
     </HistoryRouter>

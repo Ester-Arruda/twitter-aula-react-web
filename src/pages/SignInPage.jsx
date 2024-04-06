@@ -50,7 +50,7 @@ export function SignInPage() {
   }
 
   return (
-    <div className="w-full h-full flex items-center justify-center bg-[url(background.jpg)]">
+    <div className="w-full h-full flex items-center justify-center bg-[url(/background.jpg)]">
       <Card className="md:min-w-96">
         <h2 className="text-center font-bold text-2xl mb-4">
           Entrar na sua conta

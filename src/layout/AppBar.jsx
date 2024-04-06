@@ -52,7 +52,7 @@ function UserArea() {
   }
 
   return (
-    <div className="flex gap-4 items-center">
+    <div className="flex gap-2 items-center">
       <Link
         to="/perfil"
         title="Ir para a tela de perfil"
@@ -67,6 +67,7 @@ function UserArea() {
           {user.name} {user.surname}
         </span>
       </Link>
+      <LinkButton to="/usuarios">Usuários</LinkButton>
       <Button onClick={onClickLogout}>Sair</Button>
     </div>
   );

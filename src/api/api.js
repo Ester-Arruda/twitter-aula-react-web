@@ -2,8 +2,10 @@ import express, { Router } from "express";
 import "express-async-errors";
 import bodyParser from "body-parser";
 import cors from "cors";
-import { usersRouter } from "./users.router.js";
+import { userRouter } from "./user.router.js";
 import { accountRouter } from "./account.router.js";
+import { followRouter } from "./follow.router.js";
+import { postRouter } from "./post.router.js";
 import { ValidationError } from "yup";
 
 export const api = express();
@@ -13,8 +15,10 @@ api.use(cors());
 api.use(express.json());
 api.use(bodyParser.json());
 
-router.use("/users", usersRouter);
+router.use("/users", userRouter);
+router.use("/follows", followRouter);
 router.use("/account", accountRouter);
+router.use("/posts", postRouter);
 
 api.use("/api/", router);
 

@@ -1,23 +1,19 @@
 import { Link } from "react-router-dom";
-import useAxios from "axios-hooks";
-import { axios } from "../axios";
 
-/** @type {Array<{ id: number, username: string, name: string, surname: string, email: string, phoneNumber: string, avatar: string }>} */
-const initialUsers = [];
-
-export function HomePage() {
-  const [{ data: users = initialUsers }] = useAxios("/users");
-
+export function BaseUsersPage({ users }) {
   return (
-    <div className="max-w-screen-lg m-auto p-3">
-      <ul className="flex flex-col md:flex-row md:flex-wrap gap-3">
+    <div className="p-4 m-auto md:max-w-screen-lg">
+      <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
         {users.map((user) => (
           <li key={user.id}>
             <Link
               to={`/u/${user.username}`}
               className="flex items-center gap-2 p-3 border rounded-lg"
             >
-              <img src={user.avatar} className="w-[72px] rounded-full" />
+              <img
+                src={user.avatar ?? "/anon.png"}
+                className="w-[72px] rounded-full bg-slate-100"
+              />
               <div className="flex flex-col">
                 <span className="text-gray-500 text-sm">@{user.username}</span>
                 <span className="font-bold">

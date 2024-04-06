@@ -50,7 +50,7 @@ export function EditProfilePage() {
   const setUser = useGlobalStore((state) => state.setUser);
 
   return (
-    <div className="w-full h-full p-4 md:px-0 md:py-16 bg-[url(background.jpg)]">
+    <div className="w-full h-full p-4 md:px-0 md:py-16 bg-[url(/background.jpg)]">
       <Card className="md:m-auto max-w-screen-md">
         <h2 className="text-center font-bold text-2xl mb-4">Editar perfil</h2>
         <UploadAvatar />

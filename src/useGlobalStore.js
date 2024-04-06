@@ -1,6 +1,6 @@
 import { create } from "zustand";
 
-const initialUser = {
+export const initialUser = {
   id: 0,
   username: "",
   email: "",
