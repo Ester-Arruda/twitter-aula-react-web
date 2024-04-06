@@ -44,7 +44,7 @@ export function BaseProfilePage({ viewMode, user, loadUser }) {
   const followOptions = viewMode && (
     <div className="flex gap-2">
       {followUnfollowButton}
-      <Button>Ver seguidores</Button>
+      <LinkButton to={`/seguindo/${user.id}`}>Ver seguidores</LinkButton>
     </div>
   );
 
